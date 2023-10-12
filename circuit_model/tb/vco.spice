@@ -1,0 +1,172 @@
+**.subckt vco
+Vsup VDD GND DC=1.8
+V_in Anlg_in GND DC=0 SIN(0.8 0.4 1.5Meg 0 0 0)
+Venb1 ENB GND DC=0 PULSE( 0 1.8 0 0.1n 0.1n 20n 1)
+Xvco_1 VDD pha_vco_0 pha_vco_1 pha_vco_2 pha_vco_3 pha_vco_4 Anlg_in ENB vco L12="L12" Wp12="Wp12"
++ Wn12="Wn12" L34="L34" Wp34="Wp34" Wn34="Wn34"
+**** begin user architecture code
+
+
+.control
+set nobreak
+set num_threads=11
+set test_mode = 0
+* mode = 0: operation testing				1:  frequency extraction    2:  power consumption
+if ($test_mode = 0)
+    TRAN 1n 10u
+    plot Anlg_in pha_vco_0
+    MEAS TRAN prd_0 TRIG pha_vco_0 VAL=0.8 RISE=10 TARG pha_vco_0 VAL=0.8 RISE=20
+    let freq_0 = 10/prd_0
+    echo "frequency: "
+    print freq_0
+end
+
+if ($test_mode = 1)
+    let Vlow = 0
+    let Vlimit = 1.01     $ set upper bound for sweeping
+    let Vsweep = 0.2      $ set step size for sweeping
+    let NoPoints=(Vlimit-Vlow)/Vsweep+2    $ set number of points for sweeping
+    let freq_0 =unitvec(NoPoints)
+    let Vin  =unitvec(NoPoints)
+    let Vin[0]=Vlow
+    let ix=0
+    let I_vco =unitvec(NoPoints)
+    while Vin[ix] < Vlimit
+        alter V_in DC=Vin[ix]
+        TRAN 1n 	10u
+	SAVE @R_debug[i] pha_vco_0
+        MEAS TRAN prd_0 TRIG pha_vco_0 VAL=0.8 RISE=10 TARG pha_vco_0 VAL=0.8 RISE =20
+	MEAS TRAN Ivco 0 AVG @R_debug[i] FROM=1u TO=6u
+	let I_vco[ix] = Ivco
+        let freq_0[ix] = 10/prd_0
+        let ix = ix+1
+        Let Vin[ix] = Vin[ix-1]+Vsweep
+    end
+   print Vin freq_0 I_vco
+end
+
+if ($test_mode = 2)
+    save "vdd" @Vsup[i] "p[0]"
+    TRAN 1n 6u
+    MEAS TRAN I_vco AVG @Vsup[i] FROM=3u TO=4u
+    MEAS TRAN V_vco AVG vdd FROM=3u TO=4u
+    let Power=I_vco*V_vco
+    print Power
+end
+.endc
+
+
+
+
+** Library on VNU server
+.lib /home/dkits/efabless/mpw-5/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.inc /home/dkits/efabless/mpw-5/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+** Library on Home PC
+*.lib /home/dkit/efabless/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+*.inc /home/dkit/efabless/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+
+
+
+.param mc_mm_switch=0
+.param L12=1.5
+.param Wp12=3
+.param Wn12=6
+.param L34=1.5
+.param Wp34=1
+.param Wn34=2
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/vco.sym # of
+*+ pins=8
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/vco.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/vco.sch
+.subckt vco  VPWR p[0] p[1] p[2] p[3] p[4] Anlg_in ENB   L12=0.15 Wp12=2.4 Wn12=1.2 L34=0.15
++ Wp34=1.2 Wn34=0.65
+*.ipin Anlg_in
+*.iopin VPWR
+*.opin p[0]
+*.ipin ENB
+*.opin p[1]
+*.opin p[2]
+*.opin p[3]
+*.opin p[4]
+x1 VPWR ENB VGND VNB VPB VPWR pn[0] sky130_fd_sc_hd__einvp_1
+Xro_1 Vctrl VPWR p[0] p[1] p[2] p[3] p[4] pn[0] pn[1] pn[2] pn[3] pn[4] ring_osc L12="L12"
++ Wp12="Wp12" Wn12="Wn12" L34="L34" Wp34="Wp34" Wn34="Wn34"
+R2 Vctrl GND R=500 m=1
+R1 Anlg_in Vctrl R=500 m=1
+.ends
+
+
+* expanding   symbol:  ring_osc.sym # of pins=12
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/ring_osc.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/ring_osc.sch
+.subckt ring_osc  VGND VPWR p[0] p[1] p[2] p[3] p[4] pn[0] pn[1] pn[2] pn[3] pn[4]   L12=0.15
++ Wp12=2.4 Wn12=1.2 L34=0.15 Wp34=1.2 Wn34=0.65
+*.iopin VPWR
+*.iopin VGND
+*.opin pn[0]
+*.iopin p[0]
+*.opin pn[1]
+*.opin p[1]
+*.opin p[2]
+*.opin p[3]
+*.opin p[4]
+*.opin pn[2]
+*.opin pn[3]
+*.opin pn[4]
+Xi_1 p[4] pn[4] VPWR VGND p[0] pn[0] cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34" Wp34="Wp34"
++ Wn34="Wn34"
+Xi_2 p[0] pn[0] VPWR VGND p[1] pn[1] cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34" Wp34="Wp34"
++ Wn34="Wn34"
+Xi_3 p[1] pn[1] VPWR VGND p[2] pn[2] cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34" Wp34="Wp34"
++ Wn34="Wn34"
+Xi_4 p[2] pn[2] VPWR VGND p[3] pn[3] cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34" Wp34="Wp34"
++ Wn34="Wn34"
+Xi_5 p[3] pn[3] VPWR VGND p[4] pn[4] cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34" Wp34="Wp34"
++ Wn34="Wn34"
+.ends
+
+
+* expanding   symbol:  cc_inv.sym # of pins=6
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sch
+.subckt cc_inv  inp inn VPWR VGND outp outn   L12=0.15 Wp12=1.2 Wn12=0.65 L34=0.15 Wp34=1.2
++ Wn34=0.65
+*.opin outp
+*.ipin inn
+*.iopin VGND
+*.opin outn
+*.ipin inp
+*.iopin VPWR
+Xi_1 inp VPWR VGND outp inverter L="L12" Wp="Wp12" Np=1 Wn="Wn12" Nn=1
+Xi_3 outp VPWR VGND outn inverter L="L34" Wp="Wp34" Np=1 Wn="Wn34" Nn=1
+Xi_2 inn VPWR VGND outn inverter L="L12" Wp="Wp12" Np=1 Wn="Wn12" Nn=1
+Xi_4 outn VPWR VGND outp inverter L="L34" Wp="Wp34" Np=1 Wn="Wn34" Nn=1
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/inverter.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/inverter.sch
+.subckt inverter  A VPWR VGND Y   L=0.15 Wp=1.2 Np=1 Wn=0.65 Nn=1
+*.iopin VPWR
+*.iopin VGND
+*.ipin A
+*.opin Y
+XM1 Y A VPWR VDD sky130_fd_pr__pfet_01v8 L="L" W="Wp" nf="Np" ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+XM2 Y A VGND GND sky130_fd_pr__nfet_01v8 L="L" W="Wn" nf="Nn" ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+.ends
+
+.GLOBAL VDD
+.GLOBAL GND
+** flattened .save nodes
+.end

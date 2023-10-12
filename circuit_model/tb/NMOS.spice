@@ -1,0 +1,38 @@
+**.subckt NMOS
+XM1 VDD input ampere GND sky130_fd_pr__nfet_01v8 L="L" W="Wn" nf="Nn" ad='int((nf+1)/2) * W/nf * 0.29'
++ as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)'
++ nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1 
+V1 input GND DC=1.8
+V2 VDD GND DC=1.8
+**** begin user architecture code
+
+
+.lib /home/dkits/efabless/mpw-5/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.inc /home/dkits/efabless/mpw-5/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+
+
+
+.param mc_mm_switch=0
+.param L=1.5
+.param Wn=3
+.param Nn=1
+
+
+
+
+.control
+set nobreak
+set numthread=11
+TRAN 1n 6u
+save i(M1, ampere)
+plot input output
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL VDD
+.GLOBAL GND
+** flattened .save nodes
+.end
