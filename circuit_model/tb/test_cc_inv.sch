@@ -1,4 +1,5 @@
-v {xschem version=3.0.0 file_version=1.2 }
+v {xschem version=3.1.0 file_version=1.2
+}
 G {}
 K {}
 V {}
@@ -21,7 +22,6 @@ N 90 -80 90 -60 { lab=GND}
 N 90 -440 90 -420 { lab=GND}
 N 90 -170 90 -140 { lab=inp}
 N 90 -530 90 -500 { lab=inn}
-C {/home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sym} 400 -390 0 0 {name=Xi_1 L12=\\"L12\\" Wp12=\\"Wp12\\" Wn12=\\"Wn12\\" L34=\\"L34\\" Wp34=\\"Wp34\\" Wn34=\\"Wn34\\"}
 C {devices/vsource.sym} 90 -280 0 0 {name=VDD value=1}
 C {devices/vsource.sym} 90 -110 0 0 {name=V_in_p value="DC=0 PULSE(0 1.8 0 0.001n 0.001n 1.999998u 4u 0)"
 *PULSE(0.5 0.4 1Meg 0 0 0)"}
@@ -64,3 +64,4 @@ C {devices/code.sym} 700 -330 0 0 {name=lib only_toplevel=false value=
 
 "
 }
+C {cc_inv.sym} 400 -390 0 0 {name=Xi_2 L12=0.15 Wp12=1.2 Wn12=0.65 L34=0.15 Wp34=1.2 Wn34=0.65}

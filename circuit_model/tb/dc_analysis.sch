@@ -1,4 +1,4 @@
-v {xschem version=3.0.0 file_version=1.2 
+v {xschem version=3.1.0 file_version=1.2
 }
 G {}
 K {}
@@ -13,8 +13,8 @@ ypos2=2
 divy=5
 subdivy=1
 unity=1
-x1=0
-x2=1.8
+x1=-0.09
+x2=1.71
 
 
 node="Id9
@@ -61,7 +61,7 @@ C {devices/gnd.sym} 190 -470 0 0 {name=l4 lab=GND}
 C {devices/vsource.sym} 190 -500 0 0 {name=Vgs value=0.2}
 C {devices/gnd.sym} 330 -480 0 0 {name=l1 lab=GND}
 C {devices/code.sym} 420 -550 0 0 {name=DC_analysis only_toplevel=false value="
-.lib /home/manhtd_61d/work/conda_eda/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.lib /home/toind/eda/uniccass/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
 
 .control
 
