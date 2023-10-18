@@ -1,0 +1,77 @@
+**.subckt test_cc_inv
+Xi_1 inp inn VDD GND outn outp cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34" Wp34="Wp34"
++ Wn34="Wn34"
+VDD VDD GND 1
+V_in_p inp GND DC=0 PULSE(0 1.8 0 0.001n 0.001n 1.999998u 4u 0)
+V_in_n inn GND DC=0 PULSE(0 1.8 0 0.001n 0.001n 1.999998u 4u 90)
+**** begin user architecture code
+
+
+.control
+set nobreak
+set num_thread = 5
+TRAN 1n 10u
+
+.endc
+
+
+
+
+.param mc_mm_switch=0
+.param L12=1.5
+.param Wp12=6
+.param Wn12=12
+.param L34=1.5
+.param Wp34=2
+.param Wn34=4
+
+
+
+
+.lib /home/dkits/efabless/mpw-5/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.inc /home/dkits/efabless/mpw-5/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sym #
+*+ of pins=6
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sch
+.subckt cc_inv  inp inn VPWR VGND outn outp   L12=0.15 Wp12=1.2 Wn12=0.65 L34=0.15 Wp34=1.2
++ Wn34=0.65
+*.opin outp
+*.ipin inn
+*.iopin VGND
+*.opin outn
+*.ipin inp
+*.iopin VPWR
+Xi_1 inp VPWR VGND outp inverter L="L12" Wp="Wp12" Np=1 Wn="Wn12" Nn=1
+Xi_3 outp VPWR VGND outn inverter L="L34" Wp="Wp34" Np=1 Wn="Wn34" Nn=1
+Xi_2 inn VPWR VGND outn inverter L="L12" Wp="Wp12" Np=1 Wn="Wn12" Nn=1
+Xi_4 outn VPWR VGND outp inverter L="L34" Wp="Wp34" Np=1 Wn="Wn34" Nn=1
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/inverter.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/inverter.sch
+.subckt inverter  A VPWR VGND Y   L=0.15 Wp=1.2 Np=1 Wn=0.65 Nn=1
+*.iopin VPWR
+*.iopin VGND
+*.ipin A
+*.opin Y
+XM1 Y A VPWR VDD sky130_fd_pr__pfet_01v8 L="L" W="Wp" nf="Np" ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+XM2 Y A VGND GND sky130_fd_pr__nfet_01v8 L="L" W="Wn" nf="Nn" ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+.ends
+
+.GLOBAL VDD
+.GLOBAL GND
+** flattened .save nodes
+.end

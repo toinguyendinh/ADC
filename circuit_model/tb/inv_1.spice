@@ -1,0 +1,40 @@
+**.subckt inv_1
+XM1 output input VDD VDD sky130_fd_pr__pfet_01v8 L="L" W="Wp" nf="Np" ad='int((nf+1)/2) * W/nf * 0.29'
++ as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)'
++ nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1 
+XM2 output input GND GND sky130_fd_pr__nfet_01v8 L="L" W="Wn" nf="Nn" ad='int((nf+1)/2) * W/nf * 0.29'
++ as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)'
++ nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1 
+
+V1 input GND DC=0
+V2 VDD GND DC=1.8
+
+**** begin user architecture code
+
+.lib /home/dkits/efabless/mpw-5/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.inc /home/dkits/efabless/mpw-5/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+.param mc_mm_switch=0
+.param Wp=1
+.param L=1.5
+.param Wn=3
+.param Np=1
+.param Nn=1
+
+.control
+set nobreak
+set numthread=11
+TRAN 1n 6u 
+save i(M1)
+save i(M2)
+
+plot input output
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL VDD
+.GLOBAL GND
+** flattened .save nodes
+.end

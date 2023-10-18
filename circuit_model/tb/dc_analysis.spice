@@ -1,0 +1,49 @@
+**.subckt dc_analysis
+Vds D GND 1.8
+XM1 D G GND GND sky130_fd_pr__nfet_01v8 L=0.15 W=0.4 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+Vgs G GND 0.2
+**** begin user architecture code
+
+
+.lib /home/manhtd_61d/work/conda_eda/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.control
+
+* Measuring the threshold voltage of NMOS
+
+let Id_ = vector(1810)
+reshape Id_ [10][181]
+compose Vg start = 0 stop = 2 step = 0.2
+let j = 0
+while Vg[j]<1.8
+	echo "Vd sweeping"
+	print j
+	print Vgs[j]
+	alter Vgs dc=Vg[j]
+	dc Vds 0 1.8 0.01
+	save i(Vds)
+	let Id_[j]=-i(Vds)
+	let j = j+1
+end
+let Id_0=Id_[0]
+let Id_1=Id_[1]
+let Id_2=Id_[2]
+let Id_3=Id_[3]
+let Id_4=Id_[4]
+let Id_5=Id_[5]
+let Id_6=Id_[6]
+let Id_7=Id_[7]
+let Id_8=Id_[8]
+let Id_9=Id_[9]
+
+write dc_analysis.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+** flattened .save nodes
+.end

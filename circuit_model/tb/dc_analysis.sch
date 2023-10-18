@@ -1,11 +1,11 @@
-v {xschem version=3.1.0 file_version=1.2
+v {xschem version=3.0.0 file_version=1.2 
 }
 G {}
 K {}
 V {}
 S {}
 E {}
-B 2 0 -420 800 -20 {flags=graph
+B 2 300 -420 1100 -20 {flags=graph
 y1=0
 y2=0.0002
 ypos1=0
@@ -100,7 +100,6 @@ C {devices/lab_wire.sym} 130 -550 0 0 {name=p1 sig_type=std_logic lab=D}
 C {devices/lab_wire.sym} 190 -550 0 0 {name=p2 sig_type=std_logic lab=G}
 C {devices/lab_wire.sym} 330 -550 0 0 {name=p3 sig_type=std_logic lab=D}
 C {devices/lab_wire.sym} 270 -510 0 0 {name=p4 sig_type=std_logic lab=G}
-C {devices/title.sym} 160 0 0 0 {name=l3 author="Duck-Manh-Tran"}
 C {devices/launcher.sym} 620 -500 0 0 {name=h5
 descr="load waves" 
 tclcommand="xschem raw_read $netlist_dir/dc_analysis.raw dc"

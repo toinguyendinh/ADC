@@ -1,0 +1,17 @@
+*tittle: BPSK generator test
+
+V_carrier carrier 0 DC=0 sin(0.3 0.2 0.5Meg)
+V_data data 0 DC=0 pulse(-1 1 0 0 0 3u 6u)
+V_compensate compensate 0 DC=0 pulse(0.6 0 0 0 0 3u 6u)
+B1 bpsk 0 v=v(carrier) * v(data) + v(compensate)
+
+.control
+
+TRAN 1n 50u
+set color0 = white
+set color1=black
+set xbrushwidth=4
+set xgridwidth=2
+plot bpsk data compensate
+
+.endc

@@ -4,46 +4,55 @@ K {}
 V {}
 S {}
 E {}
-N 600 -240 600 -200 { lab=VDD}
-N 600 -140 600 -100 { lab=ampere}
-N 540 -170 560 -170 { lab=input}
-N 90 -330 90 -290 { lab=input}
-C {sky130_fd_pr/nfet3_01v8.sym} 580 -170 0 0 {name=M1
-L=\\"L\\"
-W=\\"Wn\\"
-body=GND
-nf=\\"Nn\\"
-spiceprefix=X
-}
-C {devices/vdd.sym} 600 -240 0 0 {name=l1 lab=VDD}
-C {devices/gnd.sym} 600 -100 0 0 {name=l2 lab=GND}
-C {devices/vsource.sym} 90 -260 0 0 {name=V1 value="DC=1.8"}
-C {devices/vsource.sym} 180 -260 0 0 {name=V2 value="DC=1.8"}
-C {devices/gnd.sym} 180 -230 0 0 {name=l3 lab=GND}
-C {devices/gnd.sym} 90 -230 0 0 {name=l4 lab=GND}
-C {devices/vdd.sym} 180 -290 0 0 {name=l5 lab=VDD}
-C {devices/lab_pin.sym} 90 -320 0 0 {name=l6 sig_type=std_logic lab=input}
-C {devices/lab_pin.sym} 550 -170 0 0 {name=l7 sig_type=std_logic lab=input}
-C {devices/code.sym} 20 -140 0 0 {name=lib only_toplevel=false value=
+L 4 0 -340 580 -340 {}
+L 4 580 -340 580 0 {}
+L 4 0 0 580 0 {}
+L 4 0 -340 0 0 {}
+N 480 -270 480 -230 { lab=D}
+N 420 -200 440 -200 { lab=G}
+N 220 -150 220 -110 { lab=G}
+N 480 -170 480 -150 { lab=GND}
+N 480 -90 480 -70 { lab=GND}
+N 480 -150 480 -90 { lab=GND}
+N 480 -200 550 -200 { lab=0}
+N 310 -150 310 -110 { lab=D}
+C {devices/gnd.sym} 480 -70 0 0 {name=l2 lab=GND}
+C {devices/vsource.sym} 220 -80 0 0 {name=VG value=0}
+C {devices/vsource.sym} 310 -80 0 0 {name=VD value=0}
+C {devices/gnd.sym} 310 -50 0 0 {name=l3 lab=GND}
+C {devices/gnd.sym} 220 -50 0 0 {name=l4 lab=GND}
+C {devices/lab_pin.sym} 220 -140 0 0 {name=l6 sig_type=std_logic lab=G}
+C {devices/lab_pin.sym} 420 -200 0 0 {name=l7 sig_type=std_logic lab=G}
+C {devices/code.sym} 10 -140 0 0 {name=lib only_toplevel=false value=
 "
 .lib /home/dkits/efabless/mpw-5/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
 .inc /home/dkits/efabless/mpw-5/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
 "}
-C {devices/code_shown.sym} 280 -130 0 0 {name=parameter only_toplevel=false value=
-"
-.param mc_mm_switch=0
-.param L=1.5
-.param Wn=3
-.param Nn=1
-"}
-C {devices/code.sym} 140 -140 0 0 {name=control only_toplevel=false value=
+C {devices/code.sym} 10 -290 0 0 {name=control only_toplevel=false value=
 "
 .control
 set nobreak
 set numthread=11
-TRAN 1n 6u
-save i(M1, ampere)
-plot input output
+
+dc VD 0 2 0.01 VG 0 2 0.2
+print format=raw file=NMOS.raw v(*) i(*)
+
 .endc
 "}
-C {devices/lab_pin.sym} 600 -120 0 0 {name=l8 sig_type=std_logic lab=ampere}
+C {sky130_fd_pr/nfet_01v8_lvt.sym} 460 -200 0 0 {name=M1
+L=0.15
+W=1
+nf=1
+mult=1
+ad="'int((nf+1)/2) * W/nf * 0.29'" 
+pd="'2*int((nf+1)/2) * (W/nf + 0.29)'"
+as="'int((nf+2)/2) * W/nf * 0.29'" 
+ps="'2*int((nf+2)/2) * (W/nf + 0.29)'"
+nrd="'0.29 / W'" nrs="'0.29 / W'"
+sa=0 sb=0 sd=0
+model=nfet_01v8_lvt
+spiceprefix=X
+}
+C {devices/lab_pin.sym} 310 -140 0 0 {name=l1 sig_type=std_logic lab=D}
+C {devices/lab_pin.sym} 480 -270 0 0 {name=l5 sig_type=std_logic lab=D}
+C {devices/lab_pin.sym} 550 -200 2 0 {name=l8 sig_type=std_logic lab=0}
