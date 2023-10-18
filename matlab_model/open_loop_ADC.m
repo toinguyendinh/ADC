@@ -5,10 +5,10 @@ clear all, close all
 Vdd = 1.8;
 n = 5;
 
-W_n = 0.52e-6;
-L_n = 0.13e-6;
-W_p = 0.78e-6;
-L_p = 0.13e-6;
+W_n = 6e-6;
+L_n = 1.5e-6;
+W_p = 3e-6;
+L_p = 1.5e-6;
 
 Cl = 10e-9;
 V_THO_n = 0.7;
@@ -24,16 +24,17 @@ t_PLH = (Cl*Vdd)/[AR_p*(V_OV_p^2)];     %PMOS saturation
 t_d = (t_PHL + t_PLH)/2;        %time delay of inverter
 
 T_osc = 2*n*t_d;
-f_offset = 1/T_osc;             %freq of VCO when x(t) = 0
+f_offset = 1/T_osc             %freq of VCO when x(t) = 0
+%f_offset = 15e6;
 
 %% create signal
-V_pp = 0.3;
-f_input = 1e6;
+V_pp = 0.8;
+f_input = 0.5e6;
 bw_signal = 2e6;
 
-osr = 64;       %[8, 128]
+osr = 2^7       %[64, 128]
 fs = osr * 2 * bw_signal;
-ts = 1/fs;              %sampling rate
+ts = 1/fs;    		           %sampling rate
 time = 2e-5;
 t = 0:(0.01*ts):2e-5;
 t_simulation = length(t);
@@ -47,7 +48,7 @@ R_equivalent = R2 / (R1 + R2);
 V_tune = input_signal * R_equivalent;
 
 %% caculate VCO
-K_v = 5e6;         %gain of VCO  |Kv| < f_offset
+K_v = 10e6;         %gain of VCO  |Kv| < f_offset
 f_osc_integral = @(t) f_offset + K_v * V_tune;
 f_osc = f_offset + K_v * V_tune;
 delta_f_osc = f_offset + K_v * V_tune;
@@ -90,8 +91,9 @@ for i=1:1:last
     end
 end
 
-figure(1);
-plot(sum_quan_bit);
+
+%figure(1);
+%plot(sum_quan_bit);
 
 %% caculate FFT
 size = 2^18;        %18

@@ -15,7 +15,7 @@ v_input = v_pp * sin(2 * pi * f_input * t) + 0.45;
 
 %% wave form of VCO
 Vdd = 1;
-n = 3;              %n-stage ring
+n = 5;              %n-stage ring
 W_n = 0.52e-6;
 L_n = 0.13e-6;
 W_p = 0.78e-6;
