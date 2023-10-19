@@ -7,30 +7,9 @@ S {}
 E {}
 L 4 0 -605 915 -605 {}
 L 4 0 -605 -0 -0 {}
-L 4 0 0 0 510 {}
-L 4 0 510 1010 510 {}
-L 4 1010 -600 1010 510 {}
+L 4 0 0 1010 0 {}
+L 4 1010 -605 1010 0 {}
 L 4 915 -605 1010 -605 {}
-L 4 1010 -605 1010 -600 {}
-B 2 80 50 880 450 {flags=graph
-y1=0
-y2=2
-ypos1=0
-ypos2=2
-divy=5
-subdivy=1
-unity=1
-x1=0
-x2=10e-6
-divx=5
-subdivx=1
-node=""
-color=""
-dataset=-1
-unitx=1
-logx=0
-logy=0
-}
 N 55 -415 55 -405 {
 lab=GND}
 N 70 -245 70 -235 {
@@ -81,10 +60,10 @@ set num_threads=5
 set mode=1
 if ($mode = 1)
     save all
-    TRAN 1n 6u
+    TRAN 1n 20u
     plot input_signal V_ctrl pha_0
-    MEAS TRAN prd TRIG pha_0 VAL=0.8 RISE=10 TARG pha_0 VAL=0.8 RISE=20
-    let freq=10/prd
+    MEAS TRAN prd TRIG pha_0 VAL=0.8 RISE=2 TARG pha_0 VAL=0.8 RISE=8
+    let freq=6/prd
     echo \\"Frequency: \\"
     print freq
 end
@@ -103,18 +82,18 @@ end
 C {devices/code_shown.sym} 735 -505 0 0 {name=parameter only_toplevel=false value=
 "
 .param mc_mm_switch=0
-.param L12=1.5
-.param Wp12=3
-.param Wn12=6
-.param L34=1.5
-.param Wp34=1
-.param Wn34=2
+.param L12=.8
+.param Wp12=8
+.param Wn12=4
+.param L34=.8
+.param Wp34=2
+.param Wn34=1
 "}
-C {devices/vsource.sym} 55 -445 0 0 {name=VDD value="DC=1.8"}
+C {devices/vsource.sym} 55 -445 0 0 {name=VDD value="DC=1.2"}
 C {devices/gnd.sym} 55 -405 0 0 {name=l1 lab=GND}
 C {devices/vsource.sym} 70 -275 0 0 {name=Venb1 value="DC=0 PULSE( 0 1.8 0 0.1n 0.1n 20n 1)"}
 C {devices/gnd.sym} 70 -235 0 0 {name=l2 lab=GND}
-C {devices/vsource.sym} 150 -460 0 0 {name=V_input value="DC=0"}
+C {devices/vsource.sym} 150 -460 0 0 {name=V_input value="DC=0 sin(0.8 0.4 0.5Meg 0 0 0)"}
 C {devices/gnd.sym} 150 -420 0 0 {name=l3 lab=GND}
 C {devices/res.sym} 430 -105 0 0 {name=R1
 value=100
@@ -139,7 +118,3 @@ C {devices/lab_pin.sym} 460 -155 1 0 {name=p8 sig_type=std_logic lab=V_ctrl}
 C {devices/gnd.sym} 430 -50 0 0 {name=l6 lab=GND}
 C {devices/lab_pin.sym} 150 -510 2 0 {name=p9 sig_type=std_logic lab=input_signal}
 C {devices/ipin.sym} 280 -155 0 0 {name=p10 lab=input_signal}
-C {devices/launcher.sym} 820 -140 0 0 {name=h5
-descr="load waves" 
-tclcommand="xschem raw_read $netlist_dir/vco_tb.raw tran"
-}
