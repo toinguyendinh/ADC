@@ -1,0 +1,169 @@
+**.subckt show_all_9 input
+*.ipin input
+Vsup_A VDD_A GND DC=1.8
+V_in input GND DC=0 SIN(0.8 0.4 1Meg 0 0 0)
+Venb1 ENB GND DC=0 PULSE( 0 1.8 0 0.1n 0.1n 20n 1)
+R1 input V_ctrl 100 m=1
+R2 V_ctrl GND 100 m=1
+Vsup_D VDD_D GND DC=1.8
+Vclk CLK GND DC=0 PULSE(0 1.8 0 0.001n 0.001n 2.499n 5n 0)
+x2 CLK vco_0 GND GND VDD_D VDD_D DFF_1_0 sky130_fd_sc_hd__dfxtp_1
+x3 CLK DFF_1_0 GND GND VDD_D VDD_D DFF_2_0 sky130_fd_sc_hd__dfxtp_1
+x4 DFF_1_0 DFF_2_0 GND GND VDD_D VDD_D out_0 sky130_fd_sc_hd__xor2_1
+x1 CLK vco_1 GND GND VDD_D VDD_D DFF_1_1 sky130_fd_sc_hd__dfxtp_1
+x5 CLK DFF_1_1 GND GND VDD_D VDD_D DFF_2_1 sky130_fd_sc_hd__dfxtp_1
+x6 DFF_1_1 DFF_2_1 GND GND VDD_D VDD_D out_1 sky130_fd_sc_hd__xor2_1
+x7 CLK vco_2 GND GND VDD_D VDD_D DFF_1_2 sky130_fd_sc_hd__dfxtp_1
+x8 CLK DFF_1_2 GND GND VDD_D VDD_D DFF_2_2 sky130_fd_sc_hd__dfxtp_1
+x9 DFF_1_2 DFF_2_2 GND GND VDD_D VDD_D out_2 sky130_fd_sc_hd__xor2_1
+x10 CLK vco_3 GND GND VDD_D VDD_D DFF_1_3 sky130_fd_sc_hd__dfxtp_1
+x11 CLK DFF_1_3 GND GND VDD_D VDD_D DFF_2_3 sky130_fd_sc_hd__dfxtp_1
+x12 DFF_1_3 DFF_2_3 GND GND VDD_D VDD_D out_3 sky130_fd_sc_hd__xor2_1
+x13 CLK vco_4 GND GND VDD_D VDD_D DFF_1_4 sky130_fd_sc_hd__dfxtp_1
+x14 CLK DFF_1_4 GND GND VDD_D VDD_D DFF_2_4 sky130_fd_sc_hd__dfxtp_1
+x15 DFF_1_4 DFF_2_4 GND GND VDD_D VDD_D out_4 sky130_fd_sc_hd__xor2_1
+Xi_1 vco_8 net4 VDD_A V_ctrl pn_0 vco_0 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+Xi_2 vco_0 pn_0 VDD_A V_ctrl net3 vco_1 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+Xi_3 vco_1 net3 VDD_A V_ctrl net2 vco_2 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+Xi_4 vco_2 net2 VDD_A V_ctrl net1 vco_3 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+Xi_5 vco_3 net1 VDD_A V_ctrl net5 vco_4 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+x16 VDD_A ENB GND GND VDD_A VDD_A pn_0 sky130_fd_sc_hd__einvp_1
+Xi_6 vco_4 net5 VDD_A V_ctrl net6 vco_5 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+Xi_7 vco_5 net6 VDD_A V_ctrl net7 vco_6 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+x17 CLK vco_5 GND GND VDD_D VDD_D DFF_1_5 sky130_fd_sc_hd__dfxtp_1
+x18 CLK DFF_1_5 GND GND VDD_D VDD_D DFF_2_5 sky130_fd_sc_hd__dfxtp_1
+x19 DFF_1_5 DFF_2_5 GND GND VDD_D VDD_D out_5 sky130_fd_sc_hd__xor2_1
+x20 CLK vco_6 GND GND VDD_D VDD_D DFF_1_6 sky130_fd_sc_hd__dfxtp_1
+x21 CLK DFF_1_6 GND GND VDD_D VDD_D DFF_2_6 sky130_fd_sc_hd__dfxtp_1
+x22 DFF_1_6 DFF_2_6 GND GND VDD_D VDD_D out_6 sky130_fd_sc_hd__xor2_1
+Xi_8 vco_6 net7 VDD_A V_ctrl net8 vco_7 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+Xi_9 vco_7 net8 VDD_A V_ctrl net4 vco_8 cc_inv L12="L12" Wp12="Wp12" Wn12="Wn12" L34="L34"
++ Wp34="Wp34" Wn34="Wn34"
+x23 CLK vco_7 GND GND VDD_D VDD_D DFF_1_7 sky130_fd_sc_hd__dfxtp_1
+x24 CLK DFF_1_7 GND GND VDD_D VDD_D DFF_2_7 sky130_fd_sc_hd__dfxtp_1
+x25 DFF_1_7 DFF_2_7 GND GND VDD_D VDD_D out_7 sky130_fd_sc_hd__xor2_1
+x26 CLK vco_8 GND GND VDD_D VDD_D DFF_1_8 sky130_fd_sc_hd__dfxtp_1
+x27 CLK DFF_1_8 GND GND VDD_D VDD_D DFF_2_8 sky130_fd_sc_hd__dfxtp_1
+x28 DFF_1_8 DFF_2_8 GND GND VDD_D VDD_D out_8 sky130_fd_sc_hd__xor2_1
+**** begin user architecture code
+
+
+.control
+    set nobreak
+   set num_threads=3
+
+    save "vdd_a" "vdd_d" @Vsup_a[i] @Vsup_d[i]
+    save "input" "V_ctrl"
+    save "vco_0" "vco_1" "vco_2" "vco_3" "vco_4" "vco_5" "vco_6" "vco_7" "vco_8"
+    save "out_0" "out_1" "out_2" "out_3" "out_4" "out_5" "out_6" "out_7" "out_8"
+    save "DFF_1_0" "DFF_2_0"
+    save "DFF_1_1" "DFF_2_1"
+    save "DFF_1_2" "DFF_2_2"
+    save "DFF_1_3" "DFF_2_3"
+    save "DFF_1_4" "DFF_2_4"
+    save "DFF_1_5" "DFF_2_5"
+    save "DFF_1_6" "DFF_2_6"
+    save "DFF_1_7" "DFF_2_7"
+    save "DFF_1_8" "DFF_2_8"
+    save "CLK"
+    TRAN 1n 50u
+
+*Calculate Power of system
+    MEAS TRAN I_vco AVG @Vsup_a[i] FROM=1u TO=50u
+    MEAS TRAN V_vco AVG vdd_a FROM=1u TO=50u
+    MEAS TRAN I_qz AVG @Vsup_d[i] FROM=1u TO=50u
+    MEAS TRAN V_qz AVG vdd_d FROM=1u TO=50u
+    let Power_vco=I_vco*V_vco
+    let Power_qz=I_qz*V_qz
+    let Power=Power_vco+Power_qz
+    echo "The power of system is: "
+    print Power
+
+*Calculate Frequency of VCO
+    MEAS TRAN prd TRIG vco_0 VAL=0.8 RISE=10 TARG vco_0 VAL=0.8 RISE=20
+    let frequency=10/prd
+    echo "The AVG frequency of VCO is: "
+    print frequency
+    plot vco_0+2 CLK+2 DFF_1_0 DFF_2_0 out_0-2
+
+    print vco_0 vco_1 vco_2 > show_all_9/data_vco_0.txt
+    print vco_3 vco_4 vco_5 > show_all_9/data_vco_1.txt
+    print vco_6 vco_7 vco_8> show_all_9/data_vco_2.txt
+
+    print clk out_0 out_1 > show_all_9/data_out_0.txt
+    print out_2 out_3 out_4 > show_all_9/data_out_1.txt
+    print out_5 out_6 out_7 > show_all_9/data_out_2.txt
+    print out_8 > show_all_9/data_out_3.txt
+*    plot input V_ctrl V_ctrl-2 vco_0-2 V_ctrl-4 out_0-4
+.endc
+
+
+
+
+** Library on VNU server
+.lib /home/dkits/efabless/mpw-5/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.inc /home/dkits/efabless/mpw-5/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+
+
+
+.param mc_mm_switch=0
+.param L12=1.35
+.param Wp12=4
+.param Wn12=2
+.param L34=0.5
+.param Wp34=1
+.param Wn34=0.5
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sym #
+*+ of pins=6
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/cc_inv.sch
+.subckt cc_inv  inp inn VPWR VGND outn outp   L12=0.15 Wp12=1.2 Wn12=0.65 L34=0.15 Wp34=1.2
++ Wn34=0.65
+*.iopin VGND
+*.iopin VPWR
+*.iopin outp
+*.iopin outn
+*.iopin inp
+*.iopin inn
+Xi_1 inp VPWR VGND outp inverter L="L12" Wp="Wp12" Np=1 Wn="Wn12" Nn=1
+Xi_3 outp VPWR VGND outn inverter L="L34" Wp="Wp34" Np=1 Wn="Wn34" Nn=1
+Xi_2 inn VPWR VGND outn inverter L="L12" Wp="Wp12" Np=1 Wn="Wn12" Nn=1
+Xi_4 outn VPWR VGND outp inverter L="L34" Wp="Wp34" Np=1 Wn="Wn34" Nn=1
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+* sym_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/inverter.sym
+* sch_path: /home/userdata/k63D/toind_63d/Desktop/project/circuit_model/lib/inverter.sch
+.subckt inverter  A VPWR VGND Y   L=0.15 Wp=1.2 Np=1 Wn=0.65 Nn=1
+*.iopin VPWR
+*.iopin VGND
+*.ipin A
+*.opin Y
+XM1 Y A VPWR VDD sky130_fd_pr__pfet_01v8 L="L" W="Wp" nf="Np" ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+XM2 Y A VGND GND sky130_fd_pr__nfet_01v8 L="L" W="Wn" nf="Nn" ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+.ends
+
+.GLOBAL VDD_A
+.GLOBAL GND
+.GLOBAL VDD_D
+** flattened .save nodes
+.end
