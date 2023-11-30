@@ -1,0 +1,7 @@
+* SPICE3 file created from nfet_34.ext - technology: sky130A
+
+.subckt nfet_34
+X0 D G S B sky130_fd_pr__pfet_01v8 ad=0.96 pd=7 as=0.96 ps=7 w=3.2 l=3.5
+C0 B VSUBS 2.16f
+.ends
+

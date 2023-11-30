@@ -1,0 +1,8 @@
+magic
+tech sky130A
+timestamp 1691768902
+use nfet_34  nfet_34_0
+timestamp 1691768595
+transform 1 0 0 0 1 -80
+box 0 80 550 600
+<< end >>
