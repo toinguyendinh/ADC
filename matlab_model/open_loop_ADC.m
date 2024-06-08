@@ -2,7 +2,7 @@
 clear all, close all
 
 %% calculate inverter
-Vdd = 1.8;
+Vdd = 1.3;
 n = 5;
 
 W_n = 6e-6;
@@ -96,7 +96,8 @@ end
 %plot(sum_quan_bit);
 
 %% caculate FFT
-size = 2^18;        %18
+size = 2^17;        %18 sua doi cai nay de phu hop voi tan so lay mau va OSR
+%size = 2^13;
 f = fs * (0 :(size/2)) / size;
 fft_input = sum_quan_bit(10 : 10+size);
 Y = fft(fft_input);
